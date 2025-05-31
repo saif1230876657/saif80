@@ -27,6 +27,7 @@
             --border-radius-lg: 24px;
             --box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --footer-height: 40px; /* Estimated height of your fixed footer */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,12 +42,23 @@
             min-height: 100vh;
             overscroll-behavior-y: contain;
             transition: var(--transition);
-            padding-bottom: 40px; /* Add padding to body to make space for fixed footer */
+            padding-bottom: var(--footer-height); /* Make space for the fixed footer */
         }
         .page-container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
 
         /* --- Auth Page Styles --- */
-        .auth-wrapper { background-color: var(--surface-color); padding: 35px 45px; border-radius: var(--border-radius-md); box-shadow: var(--box-shadow); width: 100%; max-width: 500px; text-align: center; position: relative; overflow: hidden; transition: var(--transition); }
+        .auth-wrapper { 
+            background-color: var(--surface-color); 
+            padding: 35px 45px 55px 45px; /* top right bottom left - increased bottom padding */
+            border-radius: var(--border-radius-md); 
+            box-shadow: var(--box-shadow); 
+            width: 100%; 
+            max-width: 500px; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden; 
+            transition: var(--transition); 
+        }
         .auth-wrapper::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); }
         .auth-wrapper h1 { color: var(--primary-color); margin-bottom: 25px; font-weight: 700; font-size: 2.2rem; position: relative; display: inline-block; padding-bottom: 10px; }
         .auth-wrapper h1::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50%; height: 4px; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 2px; }
@@ -118,8 +130,8 @@
 
         .messages-container {
             flex-grow: 1;
-            padding: 25px; /* Original padding for top, right, left */
-            padding-bottom: 85px !important; /* Increased bottom padding for footer */
+            padding: 25px; /* Default padding */
+            padding-bottom: 45px; /* Specific bottom padding for message input area */
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -168,9 +180,23 @@
         .chat-request-actions button.reject { background: var(--accent-color); }
 
         @media (max-width: 768px) {
-            body { overflow: hidden; /* Keep padding-bottom for fixed footer if needed */ }
-            .auth-wrapper { width: 90%; padding: 25px; height: auto; max-height: 95vh; overflow-y: auto; }
-            .chat-page-container { flex-direction: column; width: 100vw; height: 100vh; height: -webkit-fill-available; margin: 0; border-radius: 0; box-shadow: none; }
+            body { overflow: hidden; }
+            .auth-wrapper { 
+                width: 90%; 
+                padding: 25px 25px 45px 25px; /* top right bottom left - increased bottom padding for mobile */
+                height: auto; 
+                max-height: 95vh; 
+                overflow-y: auto; 
+            }
+            .chat-page-container { 
+                flex-direction: column; 
+                width: 100vw; 
+                height: 100%; /* Changed from 100vh to respect body padding */
+                /* height: -webkit-fill-available; */ /* Kept as a fallback if needed */
+                margin: 0; 
+                border-radius: 0; 
+                box-shadow: none; 
+            }
             .sidebar { display: none !important; }
             .chat-area { width: 100% !important; height: 100% !important; display: flex !important; position: static; }
             html[dir="rtl"] .chat-area { left: auto; right: auto; }
@@ -182,8 +208,8 @@
             html[dir="rtl"] .active-chats-container-mobile { order: 4; }
             #logout-button-sidebar { display: none; }
             .messages-container { 
-                padding: 12px; 
-                padding-bottom: 70px !important; /* Adjusted for mobile too + footer */
+                padding: 12px; /* Default mobile padding */
+                padding-bottom: 30px; /* Specific mobile bottom padding for message input area */
             }
             .message { max-width: 90%; font-size: 15px; padding: 12px 16px; }
             .message-input-area { padding: 12px; }
@@ -206,23 +232,24 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: var(--surface-color); /* Uses your existing theme color */
-            padding: 10px 0; /* 10px padding top and bottom, 0 left and right */
-            text-align: center; /* For centering content */
-            font-size: 0.9rem; /* Adjust size as needed */
-            font-family: var(--font-family); /* Ensures consistent font */
-            color: var(--text-light); /* Uses your existing theme color */
-            border-top: 1px solid #e2e8f0; /* Subtle line to separate from content */
-            z-index: 999; /* Ensures it's below pop-up notifications (which are 1000 and 1001) */
-            display: flex; /* For easy alignment of name and icon */
+            height: var(--footer-height); /* Use the variable for height consistency */
+            background-color: var(--surface-color); 
+            padding: 0; /* Padding is handled by flex alignment now */
+            text-align: center; 
+            font-size: 0.9rem; 
+            font-family: var(--font-family); 
+            color: var(--text-light); 
+            border-top: 1px solid #e2e8f0; 
+            z-index: 999; 
+            display: flex; 
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Space between your name and the icon */
+            gap: 8px; 
         }
 
         .site-footer i {
-            color: var(--primary-color); /* Makes the icon use your primary theme color */
-            font-size: 1.1rem; /* Slightly larger icon */
+            color: var(--primary-color); 
+            font-size: 1.1rem; 
         }
     </style>
 </head>

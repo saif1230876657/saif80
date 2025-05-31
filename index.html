@@ -27,7 +27,8 @@
             --border-radius-lg: 24px;
             --box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --footer-height: 40px; /* Estimated height of your fixed footer */
+            --footer-height: 40px; /* ارتفاع الفوتر الثابت */
+            --extra-scroll-bottom-space: 80px; /* مساحة فارغة إضافية كبيرة في الأسفل */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,14 +43,15 @@
             min-height: 100vh;
             overscroll-behavior-y: contain;
             transition: var(--transition);
-            padding-bottom: var(--footer-height); /* Make space for the fixed footer */
+            /* المساحة السفلية الإجمالية = ارتفاع الفوتر + المساحة الفارغة الإضافية */
+            padding-bottom: calc(var(--footer-height) + var(--extra-scroll-bottom-space)); 
         }
         .page-container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
 
         /* --- Auth Page Styles --- */
         .auth-wrapper { 
             background-color: var(--surface-color); 
-            padding: 35px 45px 55px 45px; /* top right bottom left - increased bottom padding */
+            padding: 35px 45px 65px 45px; /* top right bottom left - للحفاظ على مسافة داخلية جيدة */
             border-radius: var(--border-radius-md); 
             box-shadow: var(--box-shadow); 
             width: 100%; 
@@ -130,8 +132,8 @@
 
         .messages-container {
             flex-grow: 1;
-            padding: 25px; /* Default padding */
-            padding-bottom: 45px; /* Specific bottom padding for message input area */
+            padding: 25px; 
+            padding-bottom: 45px; /* مساحة داخلية لمنطقة الرسائل لتفادي تغطية شريط الإدخال */
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -180,10 +182,10 @@
         .chat-request-actions button.reject { background: var(--accent-color); }
 
         @media (max-width: 768px) {
-            body { overflow: hidden; }
+            body { overflow: hidden; /* padding-bottom is already handled globally */ }
             .auth-wrapper { 
                 width: 90%; 
-                padding: 25px 25px 45px 25px; /* top right bottom left - increased bottom padding for mobile */
+                padding: 25px 25px 55px 25px; /* top right bottom left - للحفاظ على مسافة داخلية جيدة للموبايل */
                 height: auto; 
                 max-height: 95vh; 
                 overflow-y: auto; 
@@ -191,8 +193,7 @@
             .chat-page-container { 
                 flex-direction: column; 
                 width: 100vw; 
-                height: 100%; /* Changed from 100vh to respect body padding */
-                /* height: -webkit-fill-available; */ /* Kept as a fallback if needed */
+                height: 100%; /* يضمن أن الحاوية تملأ المساحة المتاحة في body (التي لديها padding-bottom) */
                 margin: 0; 
                 border-radius: 0; 
                 box-shadow: none; 
@@ -208,8 +209,8 @@
             html[dir="rtl"] .active-chats-container-mobile { order: 4; }
             #logout-button-sidebar { display: none; }
             .messages-container { 
-                padding: 12px; /* Default mobile padding */
-                padding-bottom: 30px; /* Specific mobile bottom padding for message input area */
+                padding: 12px; 
+                padding-bottom: 30px; /* مساحة داخلية لمنطقة الرسائل للموبايل لتفادي تغطية شريط الإدخال */
             }
             .message { max-width: 90%; font-size: 15px; padding: 12px 16px; }
             .message-input-area { padding: 12px; }
@@ -232,9 +233,9 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: var(--footer-height); /* Use the variable for height consistency */
+            height: var(--footer-height); /* استخدام المتغير لضمان تطابق الارتفاع مع padding الجسم */
             background-color: var(--surface-color); 
-            padding: 0; /* Padding is handled by flex alignment now */
+            padding: 0; 
             text-align: center; 
             font-size: 0.9rem; 
             font-family: var(--font-family); 

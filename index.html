@@ -19,7 +19,7 @@
             --text-color: #2d3748;
             --text-light: #718096;
             --sent-message-bg: linear-gradient(135deg, #6c63ff, #4a44b5);
-            --received-message-bg: #edf2f7;
+            --received-message-bg: #edf2e7;
             --online-status: #48bb78;
             --offline-status: #a0aec0;
             --font-family: 'Cairo', sans-serif;
@@ -140,38 +140,134 @@
 
         #chat-content-wrapper { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
-        .messages-container { flex-grow: 1; padding: 25px; padding-bottom: 45px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M20,20 Q40,5 50,30 T80,20" fill="none" stroke="rgba(108, 99, 255, 0.03)" stroke-width="0.5"/></svg>'); background-size: 300px; }
-        .message { max-width: 75%; padding: 15px 20px; border-radius: var(--border-radius-lg); line-height: 1.5; font-size: 15.5px; position: relative; word-wrap: break-word; display: flex; flex-direction: column; box-shadow: var(--box-shadow); animation: messageAppear 0.3s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        /* === START OF WHATSAPP STYLE MODIFICATIONS === */
+        .messages-container {
+            flex-grow: 1;
+            padding: 10px;
+            padding-bottom: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* تم التعديل: زيادة المسافة بين الرسائل */
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M20,20 Q40,5 50,30 T80,20" fill="none" stroke="rgba(108, 99, 255, 0.03)" stroke-width="0.5"/></svg>');
+            background-size: 300px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            line-height: 1.45;
+            font-size: 15px;
+            position: relative;
+            word-wrap: break-word;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            animation: messageAppear 0.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
         @keyframes messageAppear { to { opacity: 1; transform: translateY(0); } }
-        .message .sender-info-container { display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; }
-        .message.sent .sender-info-container { cursor: default; } /* No special cursor for own sent messages */
+
+        .message .sender-info-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .message.sent .sender-info-container { cursor: default; }
         .message.received .sender-info-container:hover .name { text-decoration: underline; color: var(--primary-dark); }
-        .message .sender-info-container img { width: 30px; height: 30px; border-radius: 50%; margin-left: 10px; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .message .sender-info-container .name { font-size: 0.85em; font-weight: 600; color: var(--primary-color); }
-        .message .message-content { display: flex; align-items: center; gap: 12px; }
-        .message .message-text { flex-grow: 1; }
-        .message .delete-msg-icon { font-size: 0.95em; color: rgba(255,255,255,0.7); cursor: pointer; transition: var(--transition); padding: 6px; border-radius: 6px; }
-        .message .delete-msg-icon:hover { color: #fff; background: rgba(255,255,255,0.2); transform: scale(1.1); }
-        .message .timestamp { font-size: 0.75em; color: rgba(255,255,255,0.8); margin-top: 8px; text-align: left; font-weight: 500; }
-        .message.sent { background: var(--sent-message-bg); color: white; align-self: flex-end; border-bottom-right-radius: 8px; }
-        .message.sent .timestamp { color: rgba(255,255,255,0.85); text-align: right; }
-        .message.received { background-color: var(--received-message-bg); color: var(--text-color); align-self: flex-start; border-bottom-left-radius: 8px; }
-        .message.received .timestamp { color: var(--text-light); }
-        /* Styles for ban icon */
-        .ban-user-icon {
+        .message .sender-info-container img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 10px;
+            object-fit: cover;
+        }
+        .message .sender-info-container .name {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .message .message-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-right: 75px; /* تم التعديل: زيادة المسافة للوقت */
+        }
+        .message .message-text {
+             white-space: pre-wrap;
+             flex-grow: 1;
+        }
+
+        .message .delete-msg-icon {
             font-size: 0.9em;
-            color: var(--accent-color);
+            color: rgba(0,0,0,0.4);
             cursor: pointer;
             transition: var(--transition);
-            padding: 4px; /* Make it easier to click */
+            padding: 6px;
+            border-radius: 50%;
         }
-        .ban-user-icon:hover {
-            transform: scale(1.15);
-            color: var(--primary-dark);
+        .message .delete-msg-icon:hover {
+            color: var(--accent-color);
+            background: rgba(0,0,0,0.05);
         }
+
+        .message .timestamp {
+            font-size: 0.7em;
+            color: #667781;
+            position: absolute;
+            bottom: 6px;
+            right: 12px;
+        }
+
+        /* --- Sent Message (WhatsApp Green) --- */
+        .message.sent {
+            background-color: #dcf8c6;
+            color: #111b21;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+        .message.sent::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -7px;
+            width: 8px;
+            height: 13px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 8 13" width="8" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M8,0 C5,0 5,2 3,2 C2,2 0,4 0,6 L8,13 L8,0 Z" fill="%23dcf8c6"></path></svg>');
+        }
+        .message.sent .message-content {
+            padding-right: 0;
+            padding-left: 75px; /* تم التعديل: زيادة المسافة للوقت */
+        }
+        .message.sent .timestamp {
+            right: auto;
+            left: 12px;
+        }
+
+        /* --- Received Message (White) --- */
+        .message.received {
+            background-color: #ffffff;
+            color: #111b21;
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+        .message.received::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -7px;
+            width: 8px;
+            height: 13px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 8 13" width="8" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 C3,0 3,2 5,2 C6,2 8,4 8,6 L0,13 L0,0 Z" fill="%23ffffff"></path></svg>');
+        }
+
+        .ban-user-icon { font-size: 0.9em; color: var(--accent-color); cursor: pointer; transition: var(--transition); padding: 4px; }
+        .ban-user-icon:hover { transform: scale(1.15); color: var(--primary-dark); }
         html[dir="rtl"] .sender-info-container .ban-user-icon { margin-left: 0; margin-right: 8px; }
         html[dir="ltr"] .sender-info-container .ban-user-icon { margin-right: 0; margin-left: 8px; }
-
+        /* === END OF WHATSAPP STYLE MODIFICATIONS === */
 
         .message-input-area { display: flex; align-items: center; padding: 18px; border-top: 1px solid #e2e8f0; background-color: var(--surface-color); box-shadow: 0 -2px 10px rgba(0,0,0,0.03); }
         #message-input { flex-grow: 1; padding: 16px 22px; border: 2px solid #e2e8f0; border-radius: var(--border-radius-lg); margin-left: 15px; font-size: 15.5px; font-family: var(--font-family); resize: none; line-height: 1.6; transition: var(--transition); max-height: 150px; overflow-y: auto; background: #f8fafc; }
@@ -194,7 +290,6 @@
         .room-item .lock-icon { color: var(--accent-color); margin-left: 8px; font-size: 0.9rem; }
         html[dir="rtl"] .room-item .lock-icon { margin-left: 0; margin-right: 8px; }
 
-
         /* --- Modal Styles --- */
         .modal { position: fixed; z-index: 1005; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .modal.active { opacity: 1; pointer-events: auto; }
@@ -206,18 +301,21 @@
         .modal .form-group input { margin-bottom: 5px; }
         .modal .action-button { margin-top: 15px; }
 
-
         html[dir="rtl"] .avatar-wrapper { margin-left: 0; margin-right: 15px; }
         html[dir="rtl"] .private-chat-avatar-item img { margin-left: 0; margin-right: 10px; }
         html[dir="rtl"] .active-chats-container-mobile .private-chat-avatar-item img { margin-right: 0; }
-        html[dir="rtl"] .message.sent { align-self: flex-start; border-bottom-left-radius: 5px; border-bottom-right-radius: var(--border-radius-lg); }
-        html[dir="rtl"] .message.received { align-self: flex-end; border-bottom-right-radius: 5px; border-bottom-left-radius: var(--border-radius-lg); }
+        
+        /* RTL Adjustments for WhatsApp Style */
+        html[dir="rtl"] .message.sent { align-self: flex-start; border-top-left-radius: 0; border-top-right-radius: 8px; }
+        html[dir="rtl"] .message.sent::after { transform: scaleX(-1); left: -7px; right: auto; }
+        html[dir="rtl"] .message.received { align-self: flex-end; border-top-right-radius: 0; border-top-left-radius: 8px; }
+        html[dir="rtl"] .message.received::after { transform: scaleX(-1); right: -7px; left: auto; }
         html[dir="rtl"] .message .sender-info-container img { margin-left: 0; margin-right: 8px; }
-        html[dir="rtl"] .message.sent .timestamp { text-align: left; }
-        html[dir="rtl"] .message .timestamp { text-align: right; }
+        html[dir="rtl"] .message.sent .timestamp { text-align: right; right: 12px; left: auto; }
+        html[dir="rtl"] .message.received .timestamp { text-align: left; left: 12px; right: auto; }
         html[dir="rtl"] #message-input { margin-right: 10px; margin-left: 0; }
         html[dir="rtl"] .delete-msg-icon { margin-right: auto; margin-left: 0; }
-
+        
         .chat-request-notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--surface-color); color: var(--text-color); padding: 20px; border-radius: var(--border-radius-md); box-shadow: var(--box-shadow); z-index: 1001; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 90%; max-width: 350px; border-top: 4px solid var(--primary-color); }
         .chat-request-notification p { margin: 0 0 10px 0; font-size: 1rem; }
         .chat-request-actions button { padding: 8px 15px; font-size: 0.9rem; margin: 0 5px; width: auto; }
@@ -272,7 +370,6 @@
 <body>
 
     <div id="auth-page-container" class="page-container">
-        <!-- Auth HTML remains the same -->
         <div class="auth-wrapper">
             <div id="register-form-section">
                 <h1>إنشاء حساب جديد</h1>
@@ -369,8 +466,7 @@
     <div id="notification-center" class="hidden"><div id="notification" class="notification hidden"><i class="fas fa-info-circle"></i><span id="notification-text"></span></div></div>
     <div id="chat-request-notification-container"></div>
 
-    <div id="create-room-modal" class="modal hidden"> <!-- Start with .hidden -->
-        <div class="modal-content">
+    <div id="create-room-modal" class="modal hidden"> <div class="modal-content">
             <span class="close-modal-button" id="close-create-room-modal-button">×</span>
             <h3>إنشاء غرفة جديدة</h3>
             <form id="create-room-form">
@@ -392,8 +488,7 @@
         </div>
     </div>
 
-    <div id="enter-secret-code-modal" class="modal hidden"> <!-- Start with .hidden -->
-        <div class="modal-content">
+    <div id="enter-secret-code-modal" class="modal hidden"> <div class="modal-content">
             <span class="close-modal-button" id="close-enter-secret-code-modal-button">×</span>
             <h3 id="enter-secret-code-room-name-header">دخول غرفة سرية</h3>
             <form id="enter-secret-code-form">
@@ -423,13 +518,14 @@
 
         let currentUser = null;
         let currentRoomId = 'public'; 
-        let currentRoomData = { id: 'public', name: 'الدردشة العامة', type: 'public' }; // Will store {id, name, type, creatorId?, otherUserId?}
+        let currentRoomData = { id: 'public', name: 'الدردشة العامة', type: 'public' }; 
         let messageListeners = {}; 
         let chatRequestListeners = {};
         let activePrivateChatsListener = null;
         let generalRoomsListener = null; 
 
         let currentMainView = 'chat'; 
+        let messageSentCount = 0;
 
         const authPageContainer = document.getElementById('auth-page-container'); const chatPageContainer = document.getElementById('chat-page-container'); const registrationFormEl = document.getElementById('registrationForm'); const loginFormEl = document.getElementById('loginForm'); const showLoginLink = document.getElementById('show-login'); const showRegisterLink = document.getElementById('show-register'); const registerFormSection = document.getElementById('register-form-section'); const loginFormSection = document.getElementById('login-form-section'); const genderOptions = document.querySelectorAll('.gender-option'); const boyAvatarsDiv = document.getElementById('boy-avatars'); const girlAvatarsDiv = document.getElementById('girl-avatars'); const selectedAvatarInput = document.getElementById('selected-avatar'); const avatarOptions = document.querySelectorAll('.avatar-option'); const errorMessageRegisterEl = document.getElementById('error-message-register'); const successMessageRegisterEl = document.getElementById('success-message-register'); const errorMessageLoginEl = document.getElementById('error-message-login');
         const userAvatarSidebar = document.getElementById('user-avatar-sidebar'); const userNameSidebar = document.getElementById('user-name-sidebar'); const logoutButtonSidebar = document.getElementById('logout-button-sidebar'); 
@@ -438,42 +534,29 @@
         const activePrivateChatsHeader = document.getElementById('active-private-chats-header');
         const messagesContainer = document.getElementById('messages-container'); const messageInput = document.getElementById('message-input'); const sendButton = document.getElementById('send-button'); const currentChatNameHeader = document.getElementById('current-chat-name'); const notificationEl = document.getElementById('notification'); const notificationText = document.getElementById('notification-text'); const chatRequestNotificationContainer = document.getElementById('chat-request-notification-container');
         const messageInputArea = document.querySelector('.message-input-area');
+        const settingsMenuToggleMobile = document.getElementById('settings-menu-toggle-mobile'); const settingsDropdownMenu = document.getElementById('settings-dropdown-menu'); const dropdownShowChatsButton = document.getElementById('dropdown-show-chats'); const dropdownLogoutButton = document.getElementById('dropdown-logout'); const mainSidebar = document.getElementById('main-sidebar'); const overlayBackdrop = document.getElementById('overlay-backdrop');
+        const showRoomsPageButtonSidebar = document.getElementById('show-rooms-page-button-sidebar'); const dropdownShowRoomsPageButton = document.getElementById('dropdown-show-rooms-page'); const roomsManagementView = document.getElementById('rooms-management-view'); const roomsManagementTitle = document.getElementById('rooms-management-title'); const showCreateRoomModalButton = document.getElementById('show-create-room-modal-button'); const roomsListContainer = document.getElementById('rooms-list-container');
+        const createRoomModal = document.getElementById('create-room-modal'); const closeCreateRoomModalButton = document.getElementById('close-create-room-modal-button'); const createRoomForm = document.getElementById('create-room-form'); const roomNameInput = document.getElementById('room-name-input'); const roomSecretCheckbox = document.getElementById('room-secret-checkbox'); const roomSecretCodeGroup = document.getElementById('room-secret-code-group'); const roomSecretCodeInput = document.getElementById('room-secret-code-input'); const errorMessageCreateRoom = document.getElementById('error-message-create-room');
+        const enterSecretCodeModal = document.getElementById('enter-secret-code-modal'); const closeEnterSecretCodeModalButton = document.getElementById('close-enter-secret-code-modal-button'); const enterSecretCodeForm = document.getElementById('enter-secret-code-form'); const enterSecretCodeRoomNameHeader = document.getElementById('enter-secret-code-room-name-header'); const enterSecretCodeRoomNameSpan = document.getElementById('enter-secret-code-room-name-span'); const joinRoomSecretCodeInput = document.getElementById('join-room-secret-code-input'); const joinRoomIdHidden = document.getElementById('join-room-id-hidden'); const joinRoomNameHidden = document.getElementById('join-room-name-hidden'); const joinRoomCreatorIdHidden = document.getElementById('join-room-creator-id-hidden'); const joinRoomCreatorNameHidden = document.getElementById('join-room-creator-name-hidden'); const errorMessageJoinSecretRoom = document.getElementById('error-message-join-secret-room');
 
-        const settingsMenuToggleMobile = document.getElementById('settings-menu-toggle-mobile');
-        const settingsDropdownMenu = document.getElementById('settings-dropdown-menu');
-        const dropdownShowChatsButton = document.getElementById('dropdown-show-chats');
-        const dropdownLogoutButton = document.getElementById('dropdown-logout');
-        const mainSidebar = document.getElementById('main-sidebar');
-        const overlayBackdrop = document.getElementById('overlay-backdrop');
+        // --- START: PROFANITY FILTER ---
+        // ملاحظة: هذه القائمة هي مجرد مثال، ويجب عليك توسيعها بنفسك لتشمل كل الكلمات التي تريد حظرها.
+        const bannedWords = [
+            "احا", "شرموطة", "قحبة", "خول", "عرص", "متناك", "كس", "زب", "طيز", // كلمات بذيئة
+            "حيوان", "كلب", "غبي", "حمار", // شتائم عامة
+            // أضف المزيد من الكلمات هنا
+        ];
 
-        const showRoomsPageButtonSidebar = document.getElementById('show-rooms-page-button-sidebar');
-        const dropdownShowRoomsPageButton = document.getElementById('dropdown-show-rooms-page');
-        const roomsManagementView = document.getElementById('rooms-management-view');
-        const roomsManagementTitle = document.getElementById('rooms-management-title');
-        const showCreateRoomModalButton = document.getElementById('show-create-room-modal-button');
-        const roomsListContainer = document.getElementById('rooms-list-container');
-        
-        const createRoomModal = document.getElementById('create-room-modal');
-        const closeCreateRoomModalButton = document.getElementById('close-create-room-modal-button');
-        const createRoomForm = document.getElementById('create-room-form');
-        const roomNameInput = document.getElementById('room-name-input');
-        const roomSecretCheckbox = document.getElementById('room-secret-checkbox');
-        const roomSecretCodeGroup = document.getElementById('room-secret-code-group');
-        const roomSecretCodeInput = document.getElementById('room-secret-code-input');
-        const errorMessageCreateRoom = document.getElementById('error-message-create-room');
-
-        const enterSecretCodeModal = document.getElementById('enter-secret-code-modal');
-        const closeEnterSecretCodeModalButton = document.getElementById('close-enter-secret-code-modal-button');
-        const enterSecretCodeForm = document.getElementById('enter-secret-code-form');
-        const enterSecretCodeRoomNameHeader = document.getElementById('enter-secret-code-room-name-header');
-        const enterSecretCodeRoomNameSpan = document.getElementById('enter-secret-code-room-name-span');
-        const joinRoomSecretCodeInput = document.getElementById('join-room-secret-code-input');
-        const joinRoomIdHidden = document.getElementById('join-room-id-hidden');
-        const joinRoomNameHidden = document.getElementById('join-room-name-hidden');
-        const joinRoomCreatorIdHidden = document.getElementById('join-room-creator-id-hidden');
-        const joinRoomCreatorNameHidden = document.getElementById('join-room-creator-name-hidden');
-        const errorMessageJoinSecretRoom = document.getElementById('error-message-join-secret-room');
-
+        function containsProfanity(text) {
+            const lowerCaseText = text.toLowerCase();
+            for (const word of bannedWords) {
+                if (lowerCaseText.includes(word.toLowerCase())) {
+                    return true; // تم العثور على كلمة ممنوعة
+                }
+            }
+            return false; // لا توجد كلمات ممنوعة
+        }
+        // --- END: PROFANITY FILTER ---
 
         function showGeneralNotification(message, isSuccess = true) { /* ... */ notificationText.textContent = message; notificationEl.className = isSuccess ? 'notification success' : 'notification error'; notificationEl.parentElement.classList.remove('hidden'); notificationEl.classList.add('show'); setTimeout(() => { notificationEl.classList.remove('show'); notificationEl.parentElement.classList.add('hidden'); }, 3000); }
         function displayAuthMessage(element, message, isError = true) { /* ... */ element.textContent = message; element.classList.remove(isError ? 'success-message' : 'error-message'); element.classList.add(isError ? 'error-message' : 'success-message'); element.classList.remove('hidden'); setTimeout(() => element.classList.add('hidden'), 5000); }
@@ -483,510 +566,72 @@
         avatarOptions.forEach(option => { /* ... */ option.addEventListener('click', () => { document.querySelectorAll('.avatar-option.selected').forEach(opt => opt.classList.remove('selected')); option.classList.add('selected'); selectedAvatarInput.value = option.src; }); });
         registrationFormEl.addEventListener('submit', async (e) => { /* ... */ e.preventDefault(); const name = document.getElementById('reg-name').value.trim(); const phone = document.getElementById('reg-phone').value.trim(); const password = document.getElementById('reg-password').value; const genderOption = document.querySelector('.gender-option.selected'); const avatarUrl = selectedAvatarInput.value; if (!name || !phone || !password || !genderOption || !avatarUrl) { displayAuthMessage(errorMessageRegisterEl, "يرجى ملء جميع الحقول واختيار صورة رمزية."); return; } const gender = genderOption.dataset.gender; const userId = "user_" + phone.replace(/[^\d]/g, ""); const userRefDb = ref(database, `users/${userId}`); if ((await get(userRefDb)).exists()) { displayAuthMessage(errorMessageRegisterEl, "رقم الهاتف هذا مسجل بالفعل."); return; } try { await set(userRefDb, { name, phone, password, gender, avatarUrl, createdAt: serverTimestamp() }); displayAuthMessage(successMessageRegisterEl, "تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول.", false); registrationFormEl.reset(); boyAvatarsDiv.classList.add('hidden'); girlAvatarsDiv.classList.add('hidden'); document.querySelector('.gender-option.selected')?.classList.remove('selected'); document.querySelector('.avatar-option.selected')?.classList.remove('selected'); setTimeout(() => showLoginLink.click(), 2000); } catch (error) { displayAuthMessage(errorMessageRegisterEl, "حدث خطأ أثناء التسجيل."); } });
         loginFormEl.addEventListener('submit', async (e) => { /* ... */ e.preventDefault(); const phone = document.getElementById('login-phone').value.trim(); const password = document.getElementById('login-password').value; if (!phone || !password) { displayAuthMessage(errorMessageLoginEl, "يرجى إدخال رقم الهاتف وكلمة المرور."); return; } const userId = "user_" + phone.replace(/[^\d]/g, ""); const userRefDb = ref(database, `users/${userId}`); const snapshot = await get(userRefDb); if (snapshot.exists()) { const userData = snapshot.val(); if (userData.password === password) { currentUser = { id: userId, ...userData }; localStorage.setItem('chatUser', JSON.stringify(currentUser)); showChatPage(); showGeneralNotification(`مرحباً ${userData.name}! تم تسجيل الدخول بنجاح.`); } else { displayAuthMessage(errorMessageLoginEl, "كلمة المرور غير صحيحة."); } } else { displayAuthMessage(errorMessageLoginEl, "رقم الهاتف هذا غير مسجل."); } });
-        
-        function logoutUser() { 
-            Object.values(messageListeners).forEach(({ queryRef, added, removed }) => { off(queryRef, 'child_added', added); if (removed) off(queryRef, 'child_removed', removed); }); 
-            messageListeners = {}; 
-            if (chatRequestListeners.requestAdded) off(chatRequestListeners.ref, 'child_added', chatRequestListeners.requestAdded); 
-            if (chatRequestListeners.requestChanged) off(chatRequestListeners.mySentRequestsRef, 'value', chatRequestListeners.requestChanged); 
-            chatRequestListeners = {}; 
-            if(activePrivateChatsListener) off(ref(database, 'private_chat_rooms'), 'value', activePrivateChatsListener); 
-            activePrivateChatsListener = null; 
-            if (generalRoomsListener) off(ref(database, 'general_chat_rooms'), 'value', generalRoomsListener);
-            generalRoomsListener = null;
-            currentUser = null; 
-            localStorage.removeItem('chatUser'); 
-            showAuthPage(); 
-            showGeneralNotification("تم تسجيل الخروج بنجاح."); 
-            mainSidebar.classList.remove('sidebar-visible-mobile'); 
-            overlayBackdrop.classList.remove('active'); 
-            settingsDropdownMenu.classList.remove('active'); 
-            switchToChatView(); 
-        }
+        function logoutUser() { Object.values(messageListeners).forEach(({ queryRef, added, removed }) => { off(queryRef, 'child_added', added); if (removed) off(queryRef, 'child_removed', removed); }); messageListeners = {}; if (chatRequestListeners.requestAdded) off(chatRequestListeners.ref, 'child_added', chatRequestListeners.requestAdded); if (chatRequestListeners.requestChanged) off(chatRequestListeners.mySentRequestsRef, 'value', chatRequestListeners.requestChanged); chatRequestListeners = {}; if(activePrivateChatsListener) off(ref(database, 'private_chat_rooms'), 'value', activePrivateChatsListener); activePrivateChatsListener = null; if (generalRoomsListener) off(ref(database, 'general_chat_rooms'), 'value', generalRoomsListener); generalRoomsListener = null; currentUser = null; localStorage.removeItem('chatUser'); showAuthPage(); showGeneralNotification("تم تسجيل الخروج بنجاح."); mainSidebar.classList.remove('sidebar-visible-mobile'); overlayBackdrop.classList.remove('active'); settingsDropdownMenu.classList.remove('active'); switchToChatView(); messageSentCount = 0; }
         function getPrivateRoomId(userId1, userId2) { return [userId1, userId2].sort().join('_direct_'); }
-
-        async function handleUserClick(targetUserId, targetUserName, targetUserAvatar) { /* ... */ if (!currentUser || targetUserId === currentUser.id) return; switchToChatView(); const privateRoomId = getPrivateRoomId(currentUser.id, targetUserId); const privateRoomRefDb = ref(database, `private_chat_rooms/${privateRoomId}`); const roomSnapshot = await get(privateRoomRefDb); if (roomSnapshot.exists()) { const roomData = roomSnapshot.val(); const otherUserInfo = roomData.memberInfo?.[targetUserId] || { name: targetUserName, avatarUrl: targetUserAvatar }; switchRoom(privateRoomId, { name: `محادثة مع ${otherUserInfo.name}`, type: 'private', otherUserId: targetUserId, otherUserAvatar: otherUserInfo.avatarUrl }); mainSidebar.classList.remove('sidebar-visible-mobile'); overlayBackdrop.classList.remove('active'); return; } const requestPath1 = `chat_requests/${targetUserId}/${currentUser.id}`; const requestPath2 = `chat_requests/${currentUser.id}/${targetUserId}`; const requestSnapshot1 = await get(ref(database, requestPath1)); const requestSnapshot2 = await get(ref(database, requestPath2)); if ((requestSnapshot1.exists() && (requestSnapshot1.val().status === 'pending' || requestSnapshot1.val().status === 'accepted')) || (requestSnapshot2.exists() && (requestSnapshot2.val().status === 'pending' || requestSnapshot2.val().status === 'accepted'))) { showGeneralNotification(`لديك بالفعل طلب معلق أو محادثة قائمة مع ${targetUserName}.`, false); return; } const confirmRequest = confirm(`هل تريد بدء محادثة خاصة مع ${targetUserName}؟`); if (confirmRequest) await sendChatRequest(targetUserId, targetUserName, targetUserAvatar); }
-        async function sendChatRequest(receiverId, receiverName, receiverAvatar) { /* ... */ const requestRefDb = ref(database, `chat_requests/${receiverId}/${currentUser.id}`); try { await set(requestRefDb, { senderId: currentUser.id, senderName: currentUser.name, senderAvatarUrl: currentUser.avatarUrl, receiverId: receiverId, receiverName: receiverName, receiverAvatarUrl: receiverAvatar, timestamp: serverTimestamp(), status: "pending" }); showGeneralNotification(`تم إرسال طلب محادثة إلى ${receiverName}.`); } catch (error) { console.error("Error sending chat request:", error); showGeneralNotification("خطأ في إرسال طلب المحادثة.", false); } }
-        function displayChatRequestNotification(requestId, requestData) { /* ... */ const existingNotification = document.getElementById(`req-notif-${requestId}`); if (existingNotification) return; const notificationDiv = document.createElement('div'); notificationDiv.id = `req-notif-${requestId}`; notificationDiv.className = 'chat-request-notification'; notificationDiv.innerHTML = `<p>${requestData.senderName} يريد بدء محادثة خاصة معك.</p><div class="chat-request-actions"><button class="accept">قبول</button><button class="reject">رفض</button></div>`; chatRequestNotificationContainer.appendChild(notificationDiv); notificationDiv.querySelector('.accept').addEventListener('click', async () => { await handleChatRequestResponse(requestId, requestData, true); notificationDiv.remove(); }); notificationDiv.querySelector('.reject').addEventListener('click', async () => { await handleChatRequestResponse(requestId, requestData, false); notificationDiv.remove(); }); }
-        async function handleChatRequestResponse(senderId, requestData, accepted) { /* ... */ const requestRefDb = ref(database, `chat_requests/${currentUser.id}/${senderId}`); try { if (accepted) { await update(requestRefDb, { status: "accepted" }); const privateRoomId = getPrivateRoomId(currentUser.id, senderId); const privateRoomRefDb = ref(database, `private_chat_rooms/${privateRoomId}`); const senderInfo = { name: requestData.senderName, avatarUrl: requestData.senderAvatarUrl }; const currentUserInfo = { name: currentUser.name, avatarUrl: currentUser.avatarUrl }; await set(privateRoomRefDb, { members: { [currentUser.id]: true, [senderId]: true }, memberInfo: { [currentUser.id]: currentUserInfo, [senderId]: senderInfo }, createdAt: serverTimestamp(), lastActivity: serverTimestamp() }); showGeneralNotification(`تم قبول طلب ${requestData.senderName}.`); switchToChatView(); switchRoom(privateRoomId, {name: `محادثة مع ${requestData.senderName}`, type: 'private', otherUserId: senderId, otherUserAvatar: requestData.senderAvatarUrl}); loadActivePrivateChats(); } else { await update(requestRefDb, { status: "rejected" }); showGeneralNotification(`تم رفض طلب ${requestData.senderName}.`); setTimeout(() => remove(requestRefDb), 5000); } } catch (error) { console.error("Error responding to chat request:", error); showGeneralNotification("خطأ في معالجة الطلب.", false); } }
-        function listenForChatRequests() { /* ... */ if (!currentUser) return; const requestsPath = `chat_requests/${currentUser.id}`; const incomingRequestsRef = ref(database, requestsPath); if (chatRequestListeners.requestAdded) off(incomingRequestsRef, 'child_added', chatRequestListeners.requestAdded); chatRequestListeners.requestAdded = onChildAdded(incomingRequestsRef, (snapshot) => { const requestData = snapshot.val(); const senderId = snapshot.key; if (requestData.status === "pending") displayChatRequestNotification(senderId, requestData); }); chatRequestListeners.ref = incomingRequestsRef; const mySentRequestsQuery = query(ref(database, 'chat_requests'), orderByChild(`${currentUser.id}/senderId`), equalTo(currentUser.id)); if (chatRequestListeners.requestChanged) off(chatRequestListeners.mySentRequestsRef, 'value', chatRequestListeners.requestChanged); chatRequestListeners.requestChanged = onValue(mySentRequestsQuery, (snapshot) => { if (!snapshot.exists()) return; snapshot.forEach(receiverNode => { const requestData = receiverNode.child(currentUser.id).val(); if (!requestData || requestData.senderId !== currentUser.id) return; const receiverId = receiverNode.key; const targetUserName = requestData.receiverName || "مستخدم"; if (requestData.status === "accepted" && !requestData.notifiedAccepted) { showGeneralNotification(`${targetUserName} قبل طلب المحادثة الخاص بك.`); update(ref(database, `chat_requests/${receiverId}/${currentUser.id}`), {notifiedAccepted: true}); loadActivePrivateChats(); const privateRoomIdVal = getPrivateRoomId(currentUser.id, receiverId); switchToChatView(); switchRoom(privateRoomIdVal, { name: `محادثة مع ${targetUserName}`, type: 'private', otherUserId: receiverId, otherUserAvatar: requestData.receiverAvatarUrl}); } else if (requestData.status === "rejected" && !requestData.notifiedRejected) { showGeneralNotification(`${targetUserName} رفض طلب المحادثة الخاص بك.`); update(ref(database, `chat_requests/${receiverId}/${currentUser.id}`), {notifiedRejected: true}); setTimeout(() => remove(ref(database, `chat_requests/${receiverId}/${currentUser.id}`)), 5000); } }); }); chatRequestListeners.mySentRequestsRef = mySentRequestsQuery; }
-
-        async function deleteMessage(msgId) { 
-            if (!confirm("هل أنت متأكد من حذف هذه الرسالة؟")) return; 
-            let path;
-            if (currentRoomData.type === 'public') path = `public_chat_messages/${msgId}`;
-            else if (currentRoomData.type === 'private') path = `private_chat_messages/${currentRoomId}/${msgId}`;
-            else if (currentRoomData.type === 'group_room') path = `general_room_messages/${currentRoomId}/${msgId}`; 
-            else return;
-            try { await remove(ref(database, path)); showGeneralNotification("تم حذف الرسالة بنجاح."); } 
-            catch (error) { console.error("Error deleting message:", error); showGeneralNotification("خطأ في حذف الرسالة.", false); } 
-        }
-
-        function displayChatMessage(msgData, msgId) {
-            if (document.getElementById(`msg-${msgId}`)) return;
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.id = `msg-${msgId}`;
-            const isSentByUser = msgData.userId === currentUser.id;
-            messageElement.classList.add(isSentByUser ? 'sent' : 'received');
-
-            const isRoomCreator = currentRoomData.type === 'group_room' && currentUser.id === currentRoomData.creatorId;
-
-            if (!isSentByUser) {
-                const senderInfoContainer = document.createElement('div');
-                senderInfoContainer.className = 'sender-info-container';
-                senderInfoContainer.dataset.userId = msgData.userId;
-                senderInfoContainer.dataset.userName = msgData.userName;
-                senderInfoContainer.dataset.userAvatar = msgData.avatarUrl;
-                senderInfoContainer.addEventListener('click', () => handleUserClick(msgData.userId, msgData.userName, msgData.avatarUrl));
-                
-                const senderAvatar = document.createElement('img');
-                senderAvatar.src = msgData.avatarUrl || 'https://via.placeholder.com/30';
-                const senderNameEl = document.createElement('span');
-                senderNameEl.className = 'name';
-                senderNameEl.textContent = msgData.userName;
-                senderInfoContainer.appendChild(senderAvatar);
-                senderInfoContainer.appendChild(senderNameEl);
-
-                // Add ban icon if creator is viewing another user's message in their group room
-                if (isRoomCreator && msgData.userId !== currentUser.id) {
-                    const banIcon = document.createElement('i');
-                    banIcon.className = 'fas fa-user-slash ban-user-icon';
-                    banIcon.title = `حظر ${msgData.userName} من هذه الغرفة`;
-                    banIcon.addEventListener('click', (e) => {
-                        e.stopPropagation(); // Prevent triggering senderInfoContainer's click for private chat
-                        promptBanUser(msgData.userId, msgData.userName, currentRoomId);
-                    });
-                    // Correctly append based on text direction
-                    if (document.documentElement.dir === 'rtl') {
-                        senderInfoContainer.insertBefore(banIcon, senderNameEl.nextSibling); // after name
-                    } else {
-                        senderInfoContainer.appendChild(banIcon); // at the end
-                    }
-                }
-                messageElement.appendChild(senderInfoContainer);
-            }
-
-            const messageContent = document.createElement('div');
-            messageContent.className = 'message-content';
-            const textElement = document.createElement('p');
-            textElement.className = 'message-text';
-            textElement.textContent = msgData.text;
-            messageContent.appendChild(textElement);
-
-            // Add delete icon if sent by user OR if current user is creator of the group room
-            const canDeleteThisMessage = isSentByUser || isRoomCreator;
-            if (canDeleteThisMessage) {
-                const deleteIcon = document.createElement('i');
-                deleteIcon.className = 'fas fa-trash-alt delete-msg-icon';
-                deleteIcon.title = 'حذف الرسالة';
-
-                if (!isSentByUser && isRoomCreator) { // Creator deleting another's message (received style)
-                    deleteIcon.style.color = 'var(--text-light)'; 
-                    deleteIcon.onmouseover = () => deleteIcon.style.color = 'var(--accent-color)';
-                    deleteIcon.onmouseout = () => deleteIcon.style.color = 'var(--text-light)';
-                }
-                // For 'sent' messages, default CSS for .delete-msg-icon applies
-
-                deleteIcon.addEventListener('click', () => deleteMessage(msgId));
-                messageContent.appendChild(deleteIcon);
-            }
-            messageElement.appendChild(messageContent);
-
-            const timestampElement = document.createElement('span');
-            timestampElement.className = 'timestamp';
-            const timestamp = new Date(msgData.timestamp);
-            timestampElement.textContent = timestamp.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-            messageElement.appendChild(timestampElement);
-
-            messagesContainer.appendChild(messageElement);
-            const isNearBottom = messagesContainer.scrollHeight - messagesContainer.clientHeight <= messagesContainer.scrollTop + 100;
-            if (isNearBottom) messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
+        async function handleUserClick(targetUserId, targetUserName, targetUserAvatar) { if (!currentUser || targetUserId === currentUser.id) return; switchToChatView(); const privateRoomId = getPrivateRoomId(currentUser.id, targetUserId); const privateRoomRefDb = ref(database, `private_chat_rooms/${privateRoomId}`); const roomSnapshot = await get(privateRoomRefDb); if (roomSnapshot.exists()) { const roomData = roomSnapshot.val(); const otherUserInfo = roomData.memberInfo?.[targetUserId] || { name: targetUserName, avatarUrl: targetUserAvatar }; switchRoom(privateRoomId, { name: `محادثة مع ${otherUserInfo.name}`, type: 'private', otherUserId: targetUserId, otherUserAvatar: otherUserInfo.avatarUrl }); mainSidebar.classList.remove('sidebar-visible-mobile'); overlayBackdrop.classList.remove('active'); return; } const requestPath1 = `chat_requests/${targetUserId}/${currentUser.id}`; const requestPath2 = `chat_requests/${currentUser.id}/${targetUserId}`; const requestSnapshot1 = await get(ref(database, requestPath1)); const requestSnapshot2 = await get(ref(database, requestPath2)); if ((requestSnapshot1.exists() && (requestSnapshot1.val().status === 'pending' || requestSnapshot1.val().status === 'accepted')) || (requestSnapshot2.exists() && (requestSnapshot2.val().status === 'pending' || requestSnapshot2.val().status === 'accepted'))) { showGeneralNotification(`لديك بالفعل طلب معلق أو محادثة قائمة مع ${targetUserName}.`, false); return; } const confirmRequest = confirm(`هل تريد بدء محادثة خاصة مع ${targetUserName}؟`); if (confirmRequest) await sendChatRequest(targetUserId, targetUserName, targetUserAvatar); }
+        async function sendChatRequest(receiverId, receiverName, receiverAvatar) { const requestRefDb = ref(database, `chat_requests/${receiverId}/${currentUser.id}`); try { await set(requestRefDb, { senderId: currentUser.id, senderName: currentUser.name, senderAvatarUrl: currentUser.avatarUrl, receiverId: receiverId, receiverName: receiverName, receiverAvatarUrl: receiverAvatar, timestamp: serverTimestamp(), status: "pending" }); showGeneralNotification(`تم إرسال طلب محادثة إلى ${receiverName}.`); } catch (error) { console.error("Error sending chat request:", error); showGeneralNotification("خطأ في إرسال طلب المحادثة.", false); } }
+        function displayChatRequestNotification(requestId, requestData) { const existingNotification = document.getElementById(`req-notif-${requestId}`); if (existingNotification) return; const notificationDiv = document.createElement('div'); notificationDiv.id = `req-notif-${requestId}`; notificationDiv.className = 'chat-request-notification'; notificationDiv.innerHTML = `<p>${requestData.senderName} يريد بدء محادثة خاصة معك.</p><div class="chat-request-actions"><button class="accept">قبول</button><button class="reject">رفض</button></div>`; chatRequestNotificationContainer.appendChild(notificationDiv); notificationDiv.querySelector('.accept').addEventListener('click', async () => { await handleChatRequestResponse(requestId, requestData, true); notificationDiv.remove(); }); notificationDiv.querySelector('.reject').addEventListener('click', async () => { await handleChatRequestResponse(requestId, requestData, false); notificationDiv.remove(); }); }
+        async function handleChatRequestResponse(senderId, requestData, accepted) { const requestRefDb = ref(database, `chat_requests/${currentUser.id}/${senderId}`); try { if (accepted) { await update(requestRefDb, { status: "accepted" }); const privateRoomId = getPrivateRoomId(currentUser.id, senderId); const privateRoomRefDb = ref(database, `private_chat_rooms/${privateRoomId}`); const senderInfo = { name: requestData.senderName, avatarUrl: requestData.senderAvatarUrl }; const currentUserInfo = { name: currentUser.name, avatarUrl: currentUser.avatarUrl }; await set(privateRoomRefDb, { members: { [currentUser.id]: true, [senderId]: true }, memberInfo: { [currentUser.id]: currentUserInfo, [senderId]: senderInfo }, createdAt: serverTimestamp(), lastActivity: serverTimestamp() }); showGeneralNotification(`تم قبول طلب ${requestData.senderName}.`); switchToChatView(); switchRoom(privateRoomId, {name: `محادثة مع ${requestData.senderName}`, type: 'private', otherUserId: senderId, otherUserAvatar: requestData.senderAvatarUrl}); loadActivePrivateChats(); } else { await update(requestRefDb, { status: "rejected" }); showGeneralNotification(`تم رفض طلب ${requestData.senderName}.`); setTimeout(() => remove(requestRefDb), 5000); } } catch (error) { console.error("Error responding to chat request:", error); showGeneralNotification("خطأ في معالجة الطلب.", false); } }
+        function listenForChatRequests() { if (!currentUser) return; const requestsPath = `chat_requests/${currentUser.id}`; const incomingRequestsRef = ref(database, requestsPath); if (chatRequestListeners.requestAdded) off(incomingRequestsRef, 'child_added', chatRequestListeners.requestAdded); chatRequestListeners.requestAdded = onChildAdded(incomingRequestsRef, (snapshot) => { const requestData = snapshot.val(); const senderId = snapshot.key; if (requestData.status === "pending") displayChatRequestNotification(senderId, requestData); }); chatRequestListeners.ref = incomingRequestsRef; const mySentRequestsQuery = query(ref(database, 'chat_requests'), orderByChild(`${currentUser.id}/senderId`), equalTo(currentUser.id)); if (chatRequestListeners.requestChanged) off(chatRequestListeners.mySentRequestsRef, 'value', chatRequestListeners.requestChanged); chatRequestListeners.requestChanged = onValue(mySentRequestsQuery, (snapshot) => { if (!snapshot.exists()) return; snapshot.forEach(receiverNode => { const requestData = receiverNode.child(currentUser.id).val(); if (!requestData || requestData.senderId !== currentUser.id) return; const receiverId = receiverNode.key; const targetUserName = requestData.receiverName || "مستخدم"; if (requestData.status === "accepted" && !requestData.notifiedAccepted) { showGeneralNotification(`${targetUserName} قبل طلب المحادثة الخاص بك.`); update(ref(database, `chat_requests/${receiverId}/${currentUser.id}`), {notifiedAccepted: true}); loadActivePrivateChats(); const privateRoomIdVal = getPrivateRoomId(currentUser.id, receiverId); switchToChatView(); switchRoom(privateRoomIdVal, { name: `محادثة مع ${targetUserName}`, type: 'private', otherUserId: receiverId, otherUserAvatar: requestData.receiverAvatarUrl}); } else if (requestData.status === "rejected" && !requestData.notifiedRejected) { showGeneralNotification(`${targetUserName} رفض طلب المحادثة الخاص بك.`); update(ref(database, `chat_requests/${receiverId}/${currentUser.id}`), {notifiedRejected: true}); setTimeout(() => remove(ref(database, `chat_requests/${receiverId}/${currentUser.id}`)), 5000); } }); }); chatRequestListeners.mySentRequestsRef = mySentRequestsQuery; }
+        async function deleteMessage(msgId) { if (!confirm("هل أنت متأكد من حذف هذه الرسالة؟")) return; let path; if (currentRoomData.type === 'public') path = `public_chat_messages/${msgId}`; else if (currentRoomData.type === 'private') path = `private_chat_messages/${currentRoomId}/${msgId}`; else if (currentRoomData.type === 'group_room') path = `general_room_messages/${currentRoomId}/${msgId}`; else return; try { await remove(ref(database, path)); showGeneralNotification("تم حذف الرسالة بنجاح."); } catch (error) { console.error("Error deleting message:", error); showGeneralNotification("خطأ في حذف الرسالة.", false); } }
+        function displayChatMessage(msgData, msgId) { if (document.getElementById(`msg-${msgId}`)) return; const messageElement = document.createElement('div'); messageElement.classList.add('message'); messageElement.id = `msg-${msgId}`; const isSentByUser = msgData.userId === currentUser.id; messageElement.classList.add(isSentByUser ? 'sent' : 'received'); const isRoomCreator = currentRoomData.type === 'group_room' && currentUser.id === currentRoomData.creatorId; if (!isSentByUser) { const senderInfoContainer = document.createElement('div'); senderInfoContainer.className = 'sender-info-container'; senderInfoContainer.dataset.userId = msgData.userId; senderInfoContainer.dataset.userName = msgData.userName; senderInfoContainer.dataset.userAvatar = msgData.avatarUrl; senderInfoContainer.addEventListener('click', () => handleUserClick(msgData.userId, msgData.userName, msgData.avatarUrl)); const senderAvatar = document.createElement('img'); senderAvatar.src = msgData.avatarUrl || 'https://via.placeholder.com/30'; const senderNameEl = document.createElement('span'); senderNameEl.className = 'name'; senderNameEl.textContent = msgData.userName; senderInfoContainer.appendChild(senderAvatar); senderInfoContainer.appendChild(senderNameEl); if (isRoomCreator && msgData.userId !== currentUser.id) { const banIcon = document.createElement('i'); banIcon.className = 'fas fa-user-slash ban-user-icon'; banIcon.title = `حظر ${msgData.userName} من هذه الغرفة`; banIcon.addEventListener('click', (e) => { e.stopPropagation(); promptBanUser(msgData.userId, msgData.userName, currentRoomId); }); if (document.documentElement.dir === 'rtl') { senderInfoContainer.insertBefore(banIcon, senderNameEl.nextSibling); } else { senderInfoContainer.appendChild(banIcon); } } messageElement.appendChild(senderInfoContainer); } const messageContent = document.createElement('div'); messageContent.className = 'message-content'; const textElement = document.createElement('p'); textElement.className = 'message-text'; textElement.textContent = msgData.text; messageContent.appendChild(textElement); const canDeleteThisMessage = isSentByUser || isRoomCreator; if (canDeleteThisMessage) { const deleteIcon = document.createElement('i'); deleteIcon.className = 'fas fa-trash-alt delete-msg-icon'; deleteIcon.title = 'حذف الرسالة'; if (!isSentByUser && isRoomCreator) { deleteIcon.style.color = 'var(--text-light)'; deleteIcon.onmouseover = () => deleteIcon.style.color = 'var(--accent-color)'; deleteIcon.onmouseout = () => deleteIcon.style.color = 'var(--text-light)'; } deleteIcon.addEventListener('click', () => deleteMessage(msgId)); messageContent.appendChild(deleteIcon); } messageElement.appendChild(messageContent); const timestampElement = document.createElement('span'); timestampElement.className = 'timestamp'; const timestamp = new Date(msgData.timestamp); timestampElement.textContent = timestamp.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }); messageElement.appendChild(timestampElement); messagesContainer.appendChild(messageElement); const isNearBottom = messagesContainer.scrollHeight - messagesContainer.clientHeight <= messagesContainer.scrollTop + 100; if (isNearBottom) messagesContainer.scrollTop = messagesContainer.scrollHeight; }
+        function loadMessagesForRoom(roomId, roomType) { messagesContainer.innerHTML = ''; if (messageListeners[roomId]) { off(messageListeners[roomId].queryRef, 'child_added', messageListeners[roomId].added); if (messageListeners[roomId].removed) off(messageListeners[roomId].queryRef, 'child_removed', messageListeners[roomId].removed); } let path; if (roomType === 'public') path = `public_chat_messages`; else if (roomType === 'private') path = `private_chat_messages/${roomId}`; else if (roomType === 'group_room') path = `general_room_messages/${roomId}`; else return; const messagesRefDb = ref(database, path); const messagesQuery = query(messagesRefDb, orderByChild('timestamp')); const onAdded = onChildAdded(messagesQuery, s => displayChatMessage(s.val(), s.key)); const onRemoved = onChildRemoved(messagesQuery, s => { const msgEl = document.getElementById(`msg-${s.key}`); if (msgEl) { msgEl.style.transition = 'opacity 0.5s, transform 0.5s'; msgEl.style.opacity = '0'; msgEl.style.transform = 'scale(0.8)'; setTimeout(() => msgEl.remove(), 500); } }); messageListeners[roomId] = { queryRef: messagesQuery, added: onAdded, removed: onRemoved }; setTimeout(() => { messagesContainer.scrollTop = messagesContainer.scrollHeight; }, 300); }
+        function updateActiveChatAvatarsUI(isActive, roomIdToHighlight = null) { document.querySelectorAll('.private-chat-avatar-item').forEach(item => { item.classList.remove('active-priv-chat'); if (isActive && item.dataset.roomId === roomIdToHighlight) { item.classList.add('active-priv-chat'); } }); }
+        function switchRoom(newRoomId, roomDetails) { currentRoomId = newRoomId; currentRoomData = { id: newRoomId, ...roomDetails }; currentChatNameHeader.textContent = currentRoomData.name; loadMessagesForRoom(newRoomId, currentRoomData.type); updateActiveChatAvatarsUI(true, newRoomId); messageInput.focus(); if (mainSidebar.classList.contains('sidebar-visible-mobile')) { mainSidebar.classList.remove('sidebar-visible-mobile'); overlayBackdrop.classList.remove('active'); } switchToChatView(); }
+        function loadActivePrivateChats() { if (!currentUser) return; const sidebarScrollable = activePrivateChatsSidebarContainer.querySelector('.scrollable-y'); if (!sidebarScrollable) { activePrivateChatsSidebarContainer.innerHTML = '<h2>محادثات خاصة</h2><div class="scrollable-y"></div>'; } else { sidebarScrollable.innerHTML = ''; } activePrivateChatsHeader.innerHTML = ''; const privateChatsQuery = query(ref(database, 'private_chat_rooms'), orderByChild(`members/${currentUser.id}`), equalTo(true)); if (activePrivateChatsListener) off(privateChatsQuery, 'value', activePrivateChatsListener); activePrivateChatsListener = onValue(privateChatsQuery, (snapshot) => { const sidebarContentEl = activePrivateChatsSidebarContainer.querySelector('.scrollable-y'); sidebarContentEl.innerHTML = ''; activePrivateChatsHeader.innerHTML = ''; let hasChats = false; if (snapshot.exists()) { snapshot.forEach(roomSnap => { const roomId = roomSnap.key; const roomData = roomSnap.val(); hasChats = true; let otherUserId = Object.keys(roomData.members).find(id => id !== currentUser.id); if (otherUserId && roomData.memberInfo && roomData.memberInfo[otherUserId]) { const otherUserInfo = roomData.memberInfo[otherUserId]; const roomDisplayName = `محادثة مع ${otherUserInfo.name}`; const sidebarItem = document.createElement('div'); sidebarItem.className = 'private-chat-avatar-item'; sidebarItem.dataset.roomId = roomId; sidebarItem.innerHTML = `<img src="${otherUserInfo.avatarUrl || 'https://via.placeholder.com/35'}" alt="${otherUserInfo.name}"><span>${otherUserInfo.name}</span>`; sidebarItem.addEventListener('click', () => { switchToChatView(); switchRoom(roomId, { name: roomDisplayName, type: 'private', otherUserId: otherUserId, otherUserAvatar: otherUserInfo.avatarUrl });}); sidebarContentEl.appendChild(sidebarItem); const headerItem = document.createElement('div'); headerItem.className = 'private-chat-avatar-item'; headerItem.dataset.roomId = roomId; headerItem.innerHTML = `<img src="${otherUserInfo.avatarUrl || 'https://via.placeholder.com/30'}" alt="${otherUserInfo.name}">`; headerItem.addEventListener('click', () => { switchToChatView(); switchRoom(roomId, { name: roomDisplayName, type: 'private', otherUserId: otherUserId, otherUserAvatar: otherUserInfo.avatarUrl });}); activePrivateChatsHeader.appendChild(headerItem); } }); } if (!hasChats) sidebarContentEl.innerHTML = '<p style="padding: 0 5px; color: var(--text-light); font-size:0.9rem;">لا يوجد محادثات خاصة بعد.</p>'; updateActiveChatAvatarsUI(true, currentRoomId); }); }
         
-        function loadMessagesForRoom(roomId, roomType) { 
-            messagesContainer.innerHTML = ''; 
-            if (messageListeners[roomId]) { 
-                off(messageListeners[roomId].queryRef, 'child_added', messageListeners[roomId].added); 
-                if (messageListeners[roomId].removed) off(messageListeners[roomId].queryRef, 'child_removed', messageListeners[roomId].removed); 
-            } 
-            let path;
-            if (roomType === 'public') path = `public_chat_messages`;
-            else if (roomType === 'private') path = `private_chat_messages/${roomId}`;
-            else if (roomType === 'group_room') path = `general_room_messages/${roomId}`; 
-            else return;
-            const messagesRefDb = ref(database, path); 
-            const messagesQuery = query(messagesRefDb, orderByChild('timestamp')); 
-            const onAdded = onChildAdded(messagesQuery, s => displayChatMessage(s.val(), s.key)); 
-            const onRemoved = onChildRemoved(messagesQuery, s => { 
-                const msgEl = document.getElementById(`msg-${s.key}`); 
-                if (msgEl) { msgEl.style.transition = 'opacity 0.5s, transform 0.5s'; msgEl.style.opacity = '0'; msgEl.style.transform = 'scale(0.8)'; setTimeout(() => msgEl.remove(), 500); } 
-            }); 
-            messageListeners[roomId] = { queryRef: messagesQuery, added: onAdded, removed: onRemoved }; 
-            setTimeout(() => { messagesContainer.scrollTop = messagesContainer.scrollHeight; }, 300); 
-        }
-        
-        function updateActiveChatAvatarsUI(isActive, roomIdToHighlight = null) { /* ... */ document.querySelectorAll('.private-chat-avatar-item').forEach(item => { item.classList.remove('active-priv-chat'); if (isActive && item.dataset.roomId === roomIdToHighlight) { item.classList.add('active-priv-chat'); } }); }
+        async function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text === '' || !currentUser) return;
 
-        function switchRoom(newRoomId, roomDetails) { // roomDetails = { name, type, creatorId?, creatorName?, otherUserId?, otherUserAvatar? }
-            currentRoomId = newRoomId;
-            currentRoomData = { id: newRoomId, ...roomDetails }; 
-            currentChatNameHeader.textContent = currentRoomData.name;
-            loadMessagesForRoom(newRoomId, currentRoomData.type);
-            updateActiveChatAvatarsUI(true, newRoomId); 
-            messageInput.focus();
-            if (mainSidebar.classList.contains('sidebar-visible-mobile')) {
-                mainSidebar.classList.remove('sidebar-visible-mobile');
-                overlayBackdrop.classList.remove('active');
+            // --- START: PROFANITY CHECK ---
+            if (containsProfanity(text)) {
+                showGeneralNotification("رسالتك تحتوي على كلمات غير لائقة ولا يمكن إرسالها.", false);
+                return; // منع إرسال الرسالة
             }
-            switchToChatView();
-        }
+            // --- END: PROFANITY CHECK ---
 
-        function loadActivePrivateChats() { /* ... */ if (!currentUser) return; const sidebarScrollable = activePrivateChatsSidebarContainer.querySelector('.scrollable-y'); if (!sidebarScrollable) { activePrivateChatsSidebarContainer.innerHTML = '<h2>محادثات خاصة</h2><div class="scrollable-y"></div>'; } else { sidebarScrollable.innerHTML = ''; } activePrivateChatsHeader.innerHTML = ''; const privateChatsQuery = query(ref(database, 'private_chat_rooms'), orderByChild(`members/${currentUser.id}`), equalTo(true)); if (activePrivateChatsListener) off(privateChatsQuery, 'value', activePrivateChatsListener); activePrivateChatsListener = onValue(privateChatsQuery, (snapshot) => { const sidebarContentEl = activePrivateChatsSidebarContainer.querySelector('.scrollable-y'); sidebarContentEl.innerHTML = ''; activePrivateChatsHeader.innerHTML = ''; let hasChats = false; if (snapshot.exists()) { snapshot.forEach(roomSnap => { const roomId = roomSnap.key; const roomData = roomSnap.val(); hasChats = true; let otherUserId = Object.keys(roomData.members).find(id => id !== currentUser.id); if (otherUserId && roomData.memberInfo && roomData.memberInfo[otherUserId]) { const otherUserInfo = roomData.memberInfo[otherUserId]; const roomDisplayName = `محادثة مع ${otherUserInfo.name}`; const sidebarItem = document.createElement('div'); sidebarItem.className = 'private-chat-avatar-item'; sidebarItem.dataset.roomId = roomId; sidebarItem.innerHTML = `<img src="${otherUserInfo.avatarUrl || 'https://via.placeholder.com/35'}" alt="${otherUserInfo.name}"><span>${otherUserInfo.name}</span>`; sidebarItem.addEventListener('click', () => { switchToChatView(); switchRoom(roomId, { name: roomDisplayName, type: 'private', otherUserId: otherUserId, otherUserAvatar: otherUserInfo.avatarUrl });}); sidebarContentEl.appendChild(sidebarItem); const headerItem = document.createElement('div'); headerItem.className = 'private-chat-avatar-item'; headerItem.dataset.roomId = roomId; headerItem.innerHTML = `<img src="${otherUserInfo.avatarUrl || 'https://via.placeholder.com/30'}" alt="${otherUserInfo.name}">`; headerItem.addEventListener('click', () => { switchToChatView(); switchRoom(roomId, { name: roomDisplayName, type: 'private', otherUserId: otherUserId, otherUserAvatar: otherUserInfo.avatarUrl });}); activePrivateChatsHeader.appendChild(headerItem); } }); } if (!hasChats) sidebarContentEl.innerHTML = '<p style="padding: 0 5px; color: var(--text-light); font-size:0.9rem;">لا يوجد محادثات خاصة بعد.</p>'; updateActiveChatAvatarsUI(true, currentRoomId); }); }
-        
-        async function sendMessage() { 
-            const text = messageInput.value.trim(); 
-            if (text === '' || !currentUser) return; 
             let path;
             let roomUpdatePath = null;
             if (currentRoomData.type === 'public') path = `public_chat_messages`;
-            else if (currentRoomData.type === 'private') {
-                path = `private_chat_messages/${currentRoomId}`;
-                roomUpdatePath = `private_chat_rooms/${currentRoomId}`;
-            }
-            else if (currentRoomData.type === 'group_room') { 
-                path = `general_room_messages/${currentRoomId}`;
-                roomUpdatePath = `general_chat_rooms/${currentRoomId}`;
-            } else return;
-            try { 
-                await push(ref(database, path), { userId: currentUser.id, userName: currentUser.name, avatarUrl: currentUser.avatarUrl, text, timestamp: serverTimestamp() }); 
-                if (roomUpdatePath) { 
-                    await update(ref(database, roomUpdatePath), { lastActivity: serverTimestamp() }); 
-                } 
-                messageInput.value = ''; messageInput.style.height = 'auto'; messageInput.focus(); 
-            } catch (error) { console.error("Error sending message:", error); showGeneralNotification("حدث خطأ أثناء إرسال الرسالة.", false); } 
+            else if (currentRoomData.type === 'private') { path = `private_chat_messages/${currentRoomId}`; roomUpdatePath = `private_chat_rooms/${currentRoomId}`; }
+            else if (currentRoomData.type === 'group_room') { path = `general_room_messages/${currentRoomId}`; roomUpdatePath = `general_chat_rooms/${currentRoomId}`; }
+            else return;
+
+            try {
+                await push(ref(database, path), { userId: currentUser.id, userName: currentUser.name, avatarUrl: currentUser.avatarUrl, text, timestamp: serverTimestamp() });
+                if (roomUpdatePath) { await update(ref(database, roomUpdatePath), { lastActivity: serverTimestamp() }); }
+                messageInput.value = ''; messageInput.style.height = 'auto'; messageInput.focus();
+                messageSentCount++;
+                if (messageSentCount % 3 === 0) {
+                    window.open('https://www.profitableratecpm.com/k8fisnjjc?key=afa7ea920578f74cea5997d670bbe78e', '_blank');
+                }
+            } catch (error) { console.error("Error sending message:", error); showGeneralNotification("حدث خطأ أثناء إرسال الرسالة.", false); }
         }
+
         function showAuthPage() { authPageContainer.classList.remove('hidden'); chatPageContainer.classList.add('hidden'); }
         function showChatPage() { authPageContainer.classList.add('hidden'); chatPageContainer.classList.remove('hidden'); initChatApp(); }
-
-        function initChatApp() {
-            if (!currentUser) return;
-            userAvatarSidebar.src = currentUser.avatarUrl; userNameSidebar.textContent = currentUser.name;
-            switchToChatView(); 
-            switchRoom('public', { name: 'الدردشة العامة', type: 'public' }); // Default to public chat
-            listenForChatRequests();
-            loadActivePrivateChats();
-            loadGeneralRooms(); 
-        }
-        
-        // --- Rooms Feature Specific Functions ---
-
-        function switchToChatView() {
-            currentMainView = 'chat';
-            messagesContainer.classList.remove('hidden');
-            messageInputArea.classList.remove('hidden');
-            roomsManagementView.classList.add('hidden');
-            if (currentRoomData && currentRoomData.name) {
-                 currentChatNameHeader.textContent = currentRoomData.name;
-            } else {
-                 currentChatNameHeader.textContent = "الدردشة العامة"; 
-            }
-            publicChatButton.classList.remove('hidden'); 
-        }
-
-        function switchToRoomsListView() {
-            currentMainView = 'rooms_list';
-            messagesContainer.classList.add('hidden');
-            messageInputArea.classList.add('hidden');
-            roomsManagementView.classList.remove('hidden');
-            currentChatNameHeader.textContent = "قائمة الغرف";
-            roomsManagementTitle.textContent = "الغرف المتاحة";
-            publicChatButton.classList.remove('hidden'); 
-            loadGeneralRooms(); 
-            if (mainSidebar.classList.contains('sidebar-visible-mobile')) {
-                mainSidebar.classList.remove('sidebar-visible-mobile');
-                overlayBackdrop.classList.remove('active');
-            }
-            settingsDropdownMenu.classList.remove('active');
-        }
-
-        roomSecretCheckbox.addEventListener('change', () => {
-            roomSecretCodeGroup.classList.toggle('hidden', !roomSecretCheckbox.checked);
-            if (!roomSecretCheckbox.checked) {
-                roomSecretCodeInput.value = ''; 
-            }
-        });
-
-        showCreateRoomModalButton.addEventListener('click', () => {
-            createRoomForm.reset(); 
-            roomSecretCodeGroup.classList.add('hidden'); 
-            errorMessageCreateRoom.classList.add('hidden');
-            createRoomModal.classList.remove('hidden');
-            createRoomModal.classList.add('active');   
-            roomNameInput.focus(); 
-        });
-        closeCreateRoomModalButton.addEventListener('click', () => {
-            createRoomModal.classList.remove('active'); 
-            createRoomModal.classList.add('hidden'); 
-        });
-
-
-        createRoomForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-            const roomName = roomNameInput.value.trim();
-            const isSecret = roomSecretCheckbox.checked;
-            const secretCode = roomSecretCodeInput.value.trim();
-
-            if (!roomName) {
-                displayAuthMessage(errorMessageCreateRoom, "الرجاء إدخال اسم للغرفة.");
-                return;
-            }
-            if (isSecret && !secretCode) {
-                displayAuthMessage(errorMessageCreateRoom, "الرجاء إدخال رمز سري للغرفة السرية.");
-                return;
-            }
-            const newRoomRef = push(ref(database, 'general_chat_rooms'));
-            const newRoomId = newRoomRef.key;
-            try {
-                const roomData = {
-                    name: roomName,
-                    creatorId: currentUser.id,
-                    creatorName: currentUser.name, 
-                    isSecret: isSecret,
-                    members: { [currentUser.id]: true },
-                    bannedUsers: {}, // Initialize bannedUsers object
-                    createdAt: serverTimestamp(),
-                    lastActivity: serverTimestamp()
-                };
-                if (isSecret) {
-                    roomData.secretCode = secretCode; 
-                }
-                await set(newRoomRef, roomData);
-                showGeneralNotification(`تم إنشاء غرفة "${roomName}" بنجاح!`);
-                createRoomModal.classList.remove('active');
-                createRoomModal.classList.add('hidden'); 
-                loadGeneralRooms(); 
-            } catch (error) {
-                console.error("Error creating room:", error);
-                displayAuthMessage(errorMessageCreateRoom, "حدث خطأ أثناء إنشاء الغرفة.");
-            }
-        });
-
-        async function loadGeneralRooms() {
-            if (!currentUser) return;
-            const roomsRef = ref(database, 'general_chat_rooms');
-            if (generalRoomsListener) off(roomsRef, 'value', generalRoomsListener); 
-            generalRoomsListener = onValue(query(roomsRef, orderByChild('createdAt')), async (snapshot) => {
-                roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">جاري تحميل الغرف...</p>';
-                if (!snapshot.exists()) {
-                    roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">لا توجد غرف متاحة حاليًا. قم بإنشاء واحدة!</p>';
-                    return;
-                }
-                let roomsHtml = '';
-                const creatorNamePromises = [];
-                const roomsArray = [];
-                snapshot.forEach(roomSnap => {
-                    const roomData = roomSnap.val();
-                    const roomId = roomSnap.key;
-                    roomsArray.push({ id: roomId, ...roomData });
-                });
-                for (const room of roomsArray) {
-                    if (!room.creatorName && room.creatorId) {
-                         creatorNamePromises.push(
-                            get(ref(database, `users/${room.creatorId}/name`)).then(nameSnap => {
-                                room.creatorNameDisplay = nameSnap.exists() ? nameSnap.val() : "غير معروف";
-                            })
-                        );
-                    } else {
-                        room.creatorNameDisplay = room.creatorName || "غير معروف";
-                    }
-                }
-                await Promise.all(creatorNamePromises);
-                roomsArray.sort((a,b) => (b.lastActivity || b.createdAt) - (a.lastActivity || a.createdAt)); 
-                if (roomsArray.length === 0) {
-                     roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">لا توجد غرف متاحة حاليًا. قم بإنشاء واحدة!</p>';
-                     return;
-                }
-                roomsArray.forEach(roomData => {
-                    const { id: roomId, name, creatorId, creatorNameDisplay, isSecret, members } = roomData;
-                    const isMember = members && members[currentUser.id];
-                    let iconClass = isSecret ? "fas fa-lock" : "fas fa-users";
-                    roomsHtml += `
-                        <div class="room-item" data-room-id="${roomId}" data-room-name="${name}" data-is-secret="${isSecret}" data-creator-id="${creatorId}" data-creator-name="${creatorNameDisplay}">
-                            <div class="room-item-info">
-                                <i class="${iconClass}"></i>
-                                <div>
-                                    <span class="room-name">${name}</span>
-                                    <span class="room-creator">أنشأها: ${creatorNameDisplay}</span>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-left join-room-icon"></i>
-                        </div>
-                    `;
-                });
-                roomsListContainer.innerHTML = roomsHtml;
-                document.querySelectorAll('.room-item').forEach(item => {
-                    item.addEventListener('click', async () => {
-                        const roomId = item.dataset.roomId;
-                        const roomName = item.dataset.roomName;
-                        const roomIsSecret = item.dataset.isSecret === 'true';
-                        const roomCreatorId = item.dataset.creatorId;
-                        const roomCreatorName = item.dataset.creatorName;
-                        const roomDataSnapshot = await get(ref(database, `general_chat_rooms/${roomId}`));
-                        if (!roomDataSnapshot.exists()) {
-                            showGeneralNotification("الغرفة لم تعد موجودة.", false);
-                            loadGeneralRooms();
-                            return;
-                        }
-                        const currentRoomFullData = roomDataSnapshot.val();
-
-                        // Check if user is banned from this room
-                        if (currentRoomFullData.bannedUsers && currentRoomFullData.bannedUsers[currentUser.id]) {
-                            showGeneralNotification(`أنت محظور من دخول غرفة "${roomName}".`, false);
-                            return;
-                        }
-
-                        const isCurrentUserMember = currentRoomFullData.members && currentRoomFullData.members[currentUser.id];
-                        if (roomIsSecret && !isCurrentUserMember) {
-                            enterSecretCodeRoomNameHeader.textContent = `دخول غرفة "${roomName}"`;
-                            enterSecretCodeRoomNameSpan.textContent = roomName;
-                            joinRoomIdHidden.value = roomId;
-                            joinRoomNameHidden.value = roomName; 
-                            joinRoomCreatorIdHidden.value = roomCreatorId;
-                            joinRoomCreatorNameHidden.value = roomCreatorName;
-                            errorMessageJoinSecretRoom.classList.add('hidden');
-                            enterSecretCodeModal.classList.remove('hidden'); 
-                            enterSecretCodeModal.classList.add('active');    
-                            joinRoomSecretCodeInput.focus();
-                        } else {
-                            switchToChatView();
-                            switchRoom(roomId, { 
-                                name: roomName, 
-                                type: 'group_room', 
-                                creatorId: roomCreatorId, 
-                                creatorName: roomCreatorName 
-                            });
-                        }
-                    });
-                });
-            }, (error) => {
-                console.error("Error loading general rooms:", error);
-                roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">خطأ في تحميل الغرف.</p>';
-            });
-        }
-
-        closeEnterSecretCodeModalButton.addEventListener('click', () => {
-            enterSecretCodeModal.classList.remove('active');
-            enterSecretCodeModal.classList.add('hidden'); 
-        });
-        enterSecretCodeForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const enteredCode = joinRoomSecretCodeInput.value;
-            const roomId = joinRoomIdHidden.value;
-            const roomName = joinRoomNameHidden.value;
-            const creatorId = joinRoomCreatorIdHidden.value;
-            const creatorName = joinRoomCreatorNameHidden.value;
-            if (!enteredCode) {
-                displayAuthMessage(errorMessageJoinSecretRoom, "الرجاء إدخال الرمز السري.");
-                return;
-            }
-            const roomRef = ref(database, `general_chat_rooms/${roomId}`);
-            const snapshot = await get(roomRef);
-            if (snapshot.exists()) {
-                const roomData = snapshot.val();
-
-                // Double check ban before joining with secret code
-                if (roomData.bannedUsers && roomData.bannedUsers[currentUser.id]) {
-                    displayAuthMessage(errorMessageJoinSecretRoom, `أنت محظور من هذه الغرفة.`);
-                    enterSecretCodeModal.classList.remove('active');
-                    enterSecretCodeModal.classList.add('hidden');
-                    return;
-                }
-
-                if (roomData.isSecret && roomData.secretCode === enteredCode) {
-                    const updates = {};
-                    updates[`general_chat_rooms/${roomId}/members/${currentUser.id}`] = true;
-                    await update(ref(database), updates);
-                    enterSecretCodeModal.classList.remove('active');
-                    enterSecretCodeModal.classList.add('hidden'); 
-                    joinRoomSecretCodeInput.value = ''; 
-                    showGeneralNotification(`تم الانضمام إلى غرفة "${roomName}" بنجاح.`);
-                    switchToChatView();
-                    switchRoom(roomId, { 
-                        name: roomName, 
-                        type: 'group_room', 
-                        creatorId: creatorId, 
-                        creatorName: creatorName 
-                    });
-                } else if (roomData.isSecret && roomData.secretCode !== enteredCode) {
-                    displayAuthMessage(errorMessageJoinSecretRoom, "الرمز السري غير صحيح.");
-                } else { 
-                    displayAuthMessage(errorMessageJoinSecretRoom, "لا يمكن الانضمام لهذه الغرفة.");
-                }
-            } else {
-                displayAuthMessage(errorMessageJoinSecretRoom, "الغرفة لم تعد موجودة.");
-                enterSecretCodeModal.classList.remove('active');
-                enterSecretCodeModal.classList.add('hidden'); 
-            }
-        });
-
-        // --- New functions for banning ---
-        async function promptBanUser(targetUserId, targetUserName, roomId) {
-            if (!currentUser || currentUser.id === targetUserId) return; // Cannot ban self
-            if (currentRoomData.type !== 'group_room' || currentUser.id !== currentRoomData.creatorId) {
-                showGeneralNotification("ليس لديك صلاحية الحظر في هذه الغرفة.", false);
-                return;
-            }
-            const confirmation = confirm(`هل أنت متأكد أنك تريد حظر المستخدم "${targetUserName}" من هذه الغرفة؟ لن يتمكن من الدخول مرة أخرى.`);
-            if (confirmation) {
-                await banUserFromRoom(roomId, targetUserId, targetUserName);
-            }
-        }
-
-        async function banUserFromRoom(roomId, userIdToBan, userNameToBan) {
-            const roomRefDb = ref(database, `general_chat_rooms/${roomId}`);
-            const updates = {};
-            updates[`bannedUsers/${userIdToBan}`] = true; // Add to banned list
-            updates[`members/${userIdToBan}`] = null;     // Remove from members list
-
-            try {
-                await update(roomRefDb, updates);
-                showGeneralNotification(`تم حظر المستخدم "${userNameToBan}" من غرفة "${currentRoomData.name}" بنجاح.`);
-                // If the banned user is currently this user, and they are in the room, you might want to kick them.
-                // For now, this primarily prevents re-entry.
-            } catch (error) {
-                console.error("Error banning user:", error);
-                showGeneralNotification(`حدث خطأ أثناء حظر المستخدم "${userNameToBan}".`, false);
-            }
-        }
-
-
+        function initChatApp() { if (!currentUser) return; userAvatarSidebar.src = currentUser.avatarUrl; userNameSidebar.textContent = currentUser.name; switchToChatView(); switchRoom('public', { name: 'الدردشة العامة', type: 'public' }); listenForChatRequests(); loadActivePrivateChats(); loadGeneralRooms(); }
+        function switchToChatView() { currentMainView = 'chat'; messagesContainer.classList.remove('hidden'); messageInputArea.classList.remove('hidden'); roomsManagementView.classList.add('hidden'); if (currentRoomData && currentRoomData.name) { currentChatNameHeader.textContent = currentRoomData.name; } else { currentChatNameHeader.textContent = "الدردشة العامة"; } publicChatButton.classList.remove('hidden'); }
+        function switchToRoomsListView() { currentMainView = 'rooms_list'; messagesContainer.classList.add('hidden'); messageInputArea.classList.add('hidden'); roomsManagementView.classList.remove('hidden'); currentChatNameHeader.textContent = "قائمة الغرف"; roomsManagementTitle.textContent = "الغرف المتاحة"; publicChatButton.classList.remove('hidden'); loadGeneralRooms(); if (mainSidebar.classList.contains('sidebar-visible-mobile')) { mainSidebar.classList.remove('sidebar-visible-mobile'); overlayBackdrop.classList.remove('active'); } settingsDropdownMenu.classList.remove('active'); }
+        roomSecretCheckbox.addEventListener('change', () => { roomSecretCodeGroup.classList.toggle('hidden', !roomSecretCheckbox.checked); if (!roomSecretCheckbox.checked) { roomSecretCodeInput.value = ''; } });
+        showCreateRoomModalButton.addEventListener('click', () => { createRoomForm.reset(); roomSecretCodeGroup.classList.add('hidden'); errorMessageCreateRoom.classList.add('hidden'); createRoomModal.classList.remove('hidden'); createRoomModal.classList.add('active'); roomNameInput.focus(); });
+        closeCreateRoomModalButton.addEventListener('click', () => { createRoomModal.classList.remove('active'); createRoomModal.classList.add('hidden'); });
+        createRoomForm.addEventListener('submit', async (e) => { e.preventDefault(); if (!currentUser) return; const roomName = roomNameInput.value.trim(); const isSecret = roomSecretCheckbox.checked; const secretCode = roomSecretCodeInput.value.trim(); if (!roomName) { displayAuthMessage(errorMessageCreateRoom, "الرجاء إدخال اسم للغرفة."); return; } if (isSecret && !secretCode) { displayAuthMessage(errorMessageCreateRoom, "الرجاء إدخال رمز سري للغرفة السرية."); return; } const newRoomRef = push(ref(database, 'general_chat_rooms')); const newRoomId = newRoomRef.key; try { const roomData = { name: roomName, creatorId: currentUser.id, creatorName: currentUser.name, isSecret: isSecret, members: { [currentUser.id]: true }, bannedUsers: {}, createdAt: serverTimestamp(), lastActivity: serverTimestamp() }; if (isSecret) { roomData.secretCode = secretCode; } await set(newRoomRef, roomData); showGeneralNotification(`تم إنشاء غرفة "${roomName}" بنجاح!`); createRoomModal.classList.remove('active'); createRoomModal.classList.add('hidden'); loadGeneralRooms(); } catch (error) { console.error("Error creating room:", error); displayAuthMessage(errorMessageCreateRoom, "حدث خطأ أثناء إنشاء الغرفة."); } });
+        async function loadGeneralRooms() { if (!currentUser) return; const roomsRef = ref(database, 'general_chat_rooms'); if (generalRoomsListener) off(roomsRef, 'value', generalRoomsListener); generalRoomsListener = onValue(query(roomsRef, orderByChild('createdAt')), async (snapshot) => { roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">جاري تحميل الغرف...</p>'; if (!snapshot.exists()) { roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">لا توجد غرف متاحة حاليًا. قم بإنشاء واحدة!</p>'; return; } let roomsHtml = ''; const creatorNamePromises = []; const roomsArray = []; snapshot.forEach(roomSnap => { const roomData = roomSnap.val(); const roomId = roomSnap.key; roomsArray.push({ id: roomId, ...roomData }); }); for (const room of roomsArray) { if (!room.creatorName && room.creatorId) { creatorNamePromises.push( get(ref(database, `users/${room.creatorId}/name`)).then(nameSnap => { room.creatorNameDisplay = nameSnap.exists() ? nameSnap.val() : "غير معروف"; }) ); } else { room.creatorNameDisplay = room.creatorName || "غير معروف"; } } await Promise.all(creatorNamePromises); roomsArray.sort((a,b) => (b.lastActivity || b.createdAt) - (a.lastActivity || a.createdAt)); if (roomsArray.length === 0) { roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">لا توجد غرف متاحة حاليًا. قم بإنشاء واحدة!</p>'; return; } roomsArray.forEach(roomData => { const { id: roomId, name, creatorId, creatorNameDisplay, isSecret, members } = roomData; const isMember = members && members[currentUser.id]; let iconClass = isSecret ? "fas fa-lock" : "fas fa-users"; roomsHtml += ` <div class="room-item" data-room-id="${roomId}" data-room-name="${name}" data-is-secret="${isSecret}" data-creator-id="${creatorId}" data-creator-name="${creatorNameDisplay}"> <div class="room-item-info"> <i class="${iconClass}"></i> <div> <span class="room-name">${name}</span> <span class="room-creator">أنشأها: ${creatorNameDisplay}</span> </div> </div> <i class="fas fa-chevron-left join-room-icon"></i> </div> `; }); roomsListContainer.innerHTML = roomsHtml; document.querySelectorAll('.room-item').forEach(item => { item.addEventListener('click', async () => { const roomId = item.dataset.roomId; const roomName = item.dataset.roomName; const roomIsSecret = item.dataset.isSecret === 'true'; const roomCreatorId = item.dataset.creatorId; const roomCreatorName = item.dataset.creatorName; const roomDataSnapshot = await get(ref(database, `general_chat_rooms/${roomId}`)); if (!roomDataSnapshot.exists()) { showGeneralNotification("الغرفة لم تعد موجودة.", false); loadGeneralRooms(); return; } const currentRoomFullData = roomDataSnapshot.val(); if (currentRoomFullData.bannedUsers && currentRoomFullData.bannedUsers[currentUser.id]) { showGeneralNotification(`أنت محظور من دخول غرفة "${roomName}".`, false); return; } const isCurrentUserMember = currentRoomFullData.members && currentRoomFullData.members[currentUser.id]; if (roomIsSecret && !isCurrentUserMember) { enterSecretCodeRoomNameHeader.textContent = `دخول غرفة "${roomName}"`; enterSecretCodeRoomNameSpan.textContent = roomName; joinRoomIdHidden.value = roomId; joinRoomNameHidden.value = roomName; joinRoomCreatorIdHidden.value = roomCreatorId; joinRoomCreatorNameHidden.value = roomCreatorName; errorMessageJoinSecretRoom.classList.add('hidden'); enterSecretCodeModal.classList.remove('hidden'); enterSecretCodeModal.classList.add('active'); joinRoomSecretCodeInput.focus(); } else { switchToChatView(); switchRoom(roomId, { name: roomName, type: 'group_room', creatorId: roomCreatorId, creatorName: roomCreatorName }); } }); }); }, (error) => { console.error("Error loading general rooms:", error); roomsListContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">خطأ في تحميل الغرف.</p>'; }); }
+        closeEnterSecretCodeModalButton.addEventListener('click', () => { enterSecretCodeModal.classList.remove('active'); enterSecretCodeModal.classList.add('hidden'); });
+        enterSecretCodeForm.addEventListener('submit', async (e) => { e.preventDefault(); const enteredCode = joinRoomSecretCodeInput.value; const roomId = joinRoomIdHidden.value; const roomName = joinRoomNameHidden.value; const creatorId = joinRoomCreatorIdHidden.value; const creatorName = joinRoomCreatorNameHidden.value; if (!enteredCode) { displayAuthMessage(errorMessageJoinSecretRoom, "الرجاء إدخال الرمز السري."); return; } const roomRef = ref(database, `general_chat_rooms/${roomId}`); const snapshot = await get(roomRef); if (snapshot.exists()) { const roomData = snapshot.val(); if (roomData.bannedUsers && roomData.bannedUsers[currentUser.id]) { displayAuthMessage(errorMessageJoinSecretRoom, `أنت محظور من هذه الغرفة.`); enterSecretCodeModal.classList.remove('active'); enterSecretCodeModal.classList.add('hidden'); return; } if (roomData.isSecret && roomData.secretCode === enteredCode) { const updates = {}; updates[`general_chat_rooms/${roomId}/members/${currentUser.id}`] = true; await update(ref(database), updates); enterSecretCodeModal.classList.remove('active'); enterSecretCodeModal.classList.add('hidden'); joinRoomSecretCodeInput.value = ''; showGeneralNotification(`تم الانضمام إلى غرفة "${roomName}" بنجاح.`); switchToChatView(); switchRoom(roomId, { name: roomName, type: 'group_room', creatorId: creatorId, creatorName: creatorName }); } else if (roomData.isSecret && roomData.secretCode !== enteredCode) { displayAuthMessage(errorMessageJoinSecretRoom, "الرمز السري غير صحيح."); } else { displayAuthMessage(errorMessageJoinSecretRoom, "لا يمكن الانضمام لهذه الغرفة."); } } else { displayAuthMessage(errorMessageJoinSecretRoom, "الغرفة لم تعد موجودة."); enterSecretCodeModal.classList.remove('active'); enterSecretCodeModal.classList.add('hidden'); } });
+        async function promptBanUser(targetUserId, targetUserName, roomId) { if (!currentUser || currentUser.id === targetUserId) return; if (currentRoomData.type !== 'group_room' || currentUser.id !== currentRoomData.creatorId) { showGeneralNotification("ليس لديك صلاحية الحظر في هذه الغرفة.", false); return; } const confirmation = confirm(`هل أنت متأكد أنك تريد حظر المستخدم "${targetUserName}" من هذه الغرفة؟ لن يتمكن من الدخول مرة أخرى.`); if (confirmation) { await banUserFromRoom(roomId, targetUserId, targetUserName); } }
+        async function banUserFromRoom(roomId, userIdToBan, userNameToBan) { const roomRefDb = ref(database, `general_chat_rooms/${roomId}`); const updates = {}; updates[`bannedUsers/${userIdToBan}`] = true; updates[`members/${userIdToBan}`] = null; try { await update(roomRefDb, updates); showGeneralNotification(`تم حظر المستخدم "${userNameToBan}" من غرفة "${currentRoomData.name}" بنجاح.`); } catch (error) { console.error("Error banning user:", error); showGeneralNotification(`حدث خطأ أثناء حظر المستخدم "${userNameToBan}".`, false); } }
         showRoomsPageButtonSidebar.addEventListener('click', switchToRoomsListView);
         dropdownShowRoomsPageButton.addEventListener('click', switchToRoomsListView);
-        publicChatButton.addEventListener('click', () => {
-            switchToChatView(); 
-            switchRoom('public', { name: 'الدردشة العامة', type: 'public' });
-        });
-
-
+        publicChatButton.addEventListener('click', () => { switchToChatView(); switchRoom('public', { name: 'الدردشة العامة', type: 'public' }); });
         settingsMenuToggleMobile.addEventListener('click', (e) => { e.stopPropagation(); settingsDropdownMenu.classList.toggle('active'); });
         dropdownShowChatsButton.addEventListener('click', () => { mainSidebar.classList.toggle('sidebar-visible-mobile'); overlayBackdrop.classList.toggle('active', mainSidebar.classList.contains('sidebar-visible-mobile')); settingsDropdownMenu.classList.remove('active'); });
         overlayBackdrop.addEventListener('click', () => { mainSidebar.classList.remove('sidebar-visible-mobile'); overlayBackdrop.classList.remove('active'); settingsDropdownMenu.classList.remove('active'); });
         dropdownLogoutButton.addEventListener('click', () => { logoutUser(); settingsDropdownMenu.classList.remove('active'); });
         document.addEventListener('click', (e) => { if (!settingsDropdownMenu.contains(e.target) && !settingsMenuToggleMobile.contains(e.target)) { settingsDropdownMenu.classList.remove('active'); } });
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            sendButton.addEventListener('click', sendMessage);
-            messageInput.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
-            messageInput.addEventListener('input', () => { messageInput.style.height = 'auto'; messageInput.style.height = `${Math.min(messageInput.scrollHeight, 150)}px`; });
-            logoutButtonSidebar.addEventListener('click', logoutUser); 
-            
-            const storedUser = localStorage.getItem('chatUser');
-            if (storedUser) { try { currentUser = JSON.parse(storedUser); showChatPage(); } catch { localStorage.removeItem('chatUser'); showAuthPage(); }
-            } else { showAuthPage(); }
-        });
+        document.addEventListener('DOMContentLoaded', () => { sendButton.addEventListener('click', sendMessage); messageInput.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }); messageInput.addEventListener('input', () => { messageInput.style.height = 'auto'; messageInput.style.height = `${Math.min(messageInput.scrollHeight, 150)}px`; }); logoutButtonSidebar.addEventListener('click', logoutUser); const storedUser = localStorage.getItem('chatUser'); if (storedUser) { try { currentUser = JSON.parse(storedUser); showChatPage(); } catch { localStorage.removeItem('chatUser'); showAuthPage(); } } else { showAuthPage(); } });
     </script>
 </body>
 </html>
